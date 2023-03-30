@@ -15,7 +15,8 @@ const spanMonth = document.querySelector('.bg__card-front-month');
 const spanYear = document.querySelector('.bg__card-front-year');
 
 const blankInfo = `can't be blank`;
-const re = /^\d+$/;
+const reNumbers = /^\d+$/;
+const reLetters = /^[A-Za-z\s]*$/;
 
 const showError = (input, msg) => {
 	const formBox = input.closest('.details__form-box');
@@ -42,13 +43,21 @@ const checkForm = input => {
 const checkLength = (input, min) => {
 	if (input.value.length < min && input.value.length > 0) {
 		showError(input, `${input.previousElementSibling.textContent} should consist of at least ${min} characters`);
-	} else if (input.value.length === 0) {
+	}
+};
+
+const checkCardName = input => {
+	if (input.value === '') {
 		showError(input, blankInfo);
+	} else if (!input.value === reLetters.test(input.value)) {
+		showError(input, `Wrong format, letters only`);
+	} else {
+		checkLength(input, 6);
 	}
 };
 
 const checkCardDate = (input, input2) => {
-	if (!input.value === re.test(input.value)) {
+	if (!input.value === reNumbers.test(input.value)) {
 		showError(input, `Wrong format, numbers only`);
 	} else {
 		if (Number(input.value) > 12) {
@@ -62,7 +71,7 @@ const checkCardDate = (input, input2) => {
 };
 
 const checkCvc = input => {
-	if (!input.value === re.test(input.value)) {
+	if (!input.value === reNumbers.test(input.value)) {
 		showError(input, `Wrong format, numbers only`);
 	} else {
 		checkLength(cvcNumber, 3);
@@ -70,24 +79,16 @@ const checkCvc = input => {
 };
 
 const checkCardNumber = input => {
-	if (!input.value === re.test(input.value)) {
+	if (!input.value === reNumbers.test(input.value)) {
 		showError(input, `Wrong format, numbers only`);
 	} else {
-		if (input.value.length < 16 && input.value.length > 0) {
-			showError(input, `card number should consist of 16 digits`);
-		} else if (input.value.length < 1) {
-			showError(input, blankInfo);
-		} else {
-			clearError(input);
-		}
+		checkLength(input, 16);
 	}
 };
 
 const checkErrors = () => {
 	const formBoxes = document.querySelectorAll('.details__form-box');
-
 	let errorCount = 0;
-
 	formBoxes.forEach(el => {
 		if (el.classList.contains('error')) {
 			errorCount++;
@@ -124,7 +125,7 @@ const handleCardNumber = (input, paragraph) => {
 sendBtn.addEventListener('click', e => {
 	e.preventDefault();
 	checkForm(allInputs);
-	checkLength(cardName, 3);
+	checkCardName(cardName);
 	checkCardNumber(cardNumber);
 	checkCardDate(mDate, yDate);
 	checkCvc(cvcNumber);
