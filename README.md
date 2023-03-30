@@ -32,8 +32,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: 
-- Live Site URL: 
+- Solution URL: https://github.com/Loniewski02/FM-interactive-card-details
+- Live Site URL: https://loniewski02.github.io/FM-interactive-card-details/
 
 ## My process
 
