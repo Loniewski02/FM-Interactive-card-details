@@ -57,7 +57,7 @@ const checkCardName = input => {
 };
 
 const checkCardDate = (input, input2) => {
-	if (!input.value === reNumbers.test(input.value)) {
+	if (!input.value === reNumbers.test(input.value) || !input2.value === reNumbers.test(input2.value)) {
 		showError(input, `Wrong format, numbers only`);
 	} else {
 		if (Number(input.value) > 12) {
